@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hhg_preprocess"
+version = "0.0.1"
+authors = [
+  { name="Siem de Jong", email="siem.dejong@radboudumc.nl" },
+]
+description = "Preprocess higher harmonic generation images for AI purposes."
+readme = "README.md"
+requires-python = "==3.8.18"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools]
+packages = ["hhg_preprocess"]
+
+[project.scripts]
+entropy_masker = "hhg_preprocess.entropy_masker.entropy_masker:main"

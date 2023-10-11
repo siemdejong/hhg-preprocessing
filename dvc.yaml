@@ -1,0 +1,10 @@
+stages:
+  mask_tissue:
+    cmd: entropy_masker --data data/data.txt --output_dir data/tissue_masks
+    deps:
+      - data/data.txt
+      - hhg_preprocess/entropy_masker/entropy_masker.py
+    params:
+      - hhg_preprocess/entropy_masker/params_entropy_masker.py:
+    outs:
+      - data/tissue_masks
