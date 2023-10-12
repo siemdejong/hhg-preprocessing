@@ -16,7 +16,7 @@ To use the reimplemented EntropyMasker tissue segmentation algorithm
 ```python
 import numpy as np
 from PIL import Image
-from hhg_preprocess.entropy_masker.entropy_masker import entropy_masker
+from hhg_preprocess import entropy_masker
 image = np.array(Image.open("path/to/your/image.png"))
 mask = entropy_masker(image)
 ```
