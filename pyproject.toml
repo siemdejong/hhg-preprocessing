@@ -19,4 +19,4 @@ classifiers = [
 packages = ["hhg_preprocess"]
 
 [project.scripts]
-entropy_masker = "hhg_preprocess.entropy_masker.entropy_masker:main"
+entropy_masker = "hhg_preprocess.masker.entropy_masker:main"
