@@ -11,7 +11,7 @@ import skimage
 import scipy
 from PIL import Image
 
-from hhg_preprocess.entropy_masker.config import default as CFG
+from hhg_preprocess.masker.config import default as CFG
 
 
 def _connected_components(
