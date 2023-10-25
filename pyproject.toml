@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Preprocess higher harmonic generation images for AI purposes."
 readme = "README.md"
-requires-python = "==3.8.18"
+requires-python = ">=3.8.18"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
