@@ -3,4 +3,4 @@ threshold_bounds = (1, 4)
 connectivity = None
 num_largest_components = None
 backend = "openslide"
-mpp = 0
+level = 4

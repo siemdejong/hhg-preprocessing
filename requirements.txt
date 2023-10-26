@@ -1,2 +1,3 @@
 dvc
 scikit-image
+monai==1.2.0

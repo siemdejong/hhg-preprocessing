@@ -138,15 +138,15 @@ def main(data, output_dir):
     with open(data, "r") as f:
         for file in f.readlines():
             path = Path(file[:-1])
-            reader = WSIReader(
-                backend=CFG.backend, mpp=CFG.mpp)
+            reader = WSIReader(backend=CFG.backend, level=CFG.level)
             wsi = reader.read(path)
-            hhg_image = np.array(wsi.get_thumbnail((1000, 1000)))
+            dims = wsi.level_dimensions[CFG.level]
+            hhg_image = np.array(wsi.get_thumbnail(dims))
             tissue_mask = entropy_masker(hhg_image, bins=CFG.bins, threshold_bounds=CFG.threshold_bounds, connectivity=CFG.connectivity, num_largest_components=CFG.num_largest_components)
-            export_img = Image.fromarray(tissue_mask)
+            export_img = Image.fromarray(tissue_mask.astype(np.uint8) * 255, mode="L")
             output_dir = Path(output_dir)
             output_dir.mkdir(parents=True, exist_ok=True)
-            export_path = output_dir / (path.stem + "_mask.jpg")
+            export_path = output_dir / (path.stem + "_tissue_mask.jpg")
             export_img.save(export_path)
 
 
