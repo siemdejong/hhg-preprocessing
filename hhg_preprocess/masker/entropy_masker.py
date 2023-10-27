@@ -133,20 +133,23 @@ def entropy_masker(
 @click.command()
 @click.option('--data', help='txt file containing paths to data to create tissue masks for.')
 @click.option('--output_dir', help='output directory.')
-def main(data, output_dir):
+@click.option('--overwrite', type=bool, default=False, help='overwrite target files.')
+def main(data: str, output_dir: str, overwrite: bool):
     """Main entry point for entropy_masker algorithm CLI."""
     with open(data, "r") as f:
         for file in f.readlines():
             path = Path(file[:-1])
+            output_dir: Path = Path(output_dir)
+            output_dir.mkdir(parents=True, exist_ok=True)
+            export_path = output_dir / (path.stem + "_tissue_mask.jpg")
+            if export_path.exists() and not overwrite:
+                continue
             reader = WSIReader(backend=CFG.backend, level=CFG.level)
             wsi = reader.read(path)
             dims = wsi.level_dimensions[CFG.level]
             hhg_image = np.array(wsi.get_thumbnail(dims))
             tissue_mask = entropy_masker(hhg_image, bins=CFG.bins, threshold_bounds=CFG.threshold_bounds, connectivity=CFG.connectivity, num_largest_components=CFG.num_largest_components)
             export_img = Image.fromarray(tissue_mask.astype(np.uint8) * 255, mode="L")
-            output_dir = Path(output_dir)
-            output_dir.mkdir(parents=True, exist_ok=True)
-            export_path = output_dir / (path.stem + "_tissue_mask.jpg")
             export_img.save(export_path)
 
 
