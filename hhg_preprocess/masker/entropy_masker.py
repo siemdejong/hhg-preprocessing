@@ -144,9 +144,17 @@ def main(data: str, output_dir: str, overwrite: bool):
             export_path = output_dir / (path.stem + "_tissue_mask.jpg")
             if export_path.exists() and not overwrite:
                 continue
-            reader = WSIReader(backend=CFG.backend, level=CFG.level)
-            wsi = reader.read(path)
-            dims = wsi.level_dimensions[CFG.level]
+            
+            # Some images do not have CFG.level, so gradually decrease level.
+            level = CFG.level
+            while True:
+                try:
+                    reader = WSIReader(backend=CFG.backend, level=level)
+                    wsi = reader.read(path)
+                    dims = wsi.level_dimensions[level]
+                    break
+                except IndexError:
+                    level -= 1
             hhg_image = np.array(wsi.get_thumbnail(dims))
             tissue_mask = entropy_masker(hhg_image, bins=CFG.bins, threshold_bounds=CFG.threshold_bounds, connectivity=CFG.connectivity, num_largest_components=CFG.num_largest_components)
             export_img = Image.fromarray(tissue_mask.astype(np.uint8) * 255, mode="L")
